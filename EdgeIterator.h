@@ -24,23 +24,7 @@ public:
 			if (_ptr->GetNext() != nullptr) {
 				_ptr = _ptr->GetNext();
 				_edgePtr = _ptr->GetTail();
-				if (_ptr->GetTail() == nullptr) {
-					while (_ptr->GetTail() == nullptr) {
-						if (_ptr->GetNext() != nullptr) {
-							_ptr = _ptr->GetNext();
-							_edgePtr = _ptr->GetTail();
-						}
-						else {
-							_ptr = _ptr->GetNext();
-							if (_ptr == nullptr) {
-								_edgePtr = nullptr;
-								break;
-							}
-							_edgePtr = _ptr->GetTail();
-							break;
-						}
-					}
-				}
+				CheckNext();
 			}
 			else {
 				_ptr = nullptr;
@@ -63,23 +47,7 @@ public:
 			if (_ptr->GetPrev() != nullptr) {
 				_ptr = _ptr->GetPrev();
 				_edgePtr = _ptr->GetTail();
-				if (_ptr->GetTail() == nullptr) {
-					while (_ptr->GetTail() == nullptr) {
-						if (_ptr->GetPrev() != nullptr) {
-							_ptr = _ptr->GetPrev();
-							_edgePtr = _ptr->GetTail();
-						}
-						else {
-							_ptr = _ptr->GetPrev();
-							if (_ptr == nullptr) {
-								_edgePtr = nullptr;
-								break;
-							}
-							_edgePtr = _ptr->GetTail();
-							break;
-						}
-					}
-				}
+				CheckPrev();
 			}
 			else {
 				_ptr = nullptr;
@@ -119,6 +87,45 @@ public:
 		return _ptr != other._ptr || _edgePtr != other._edgePtr;
 	}
 private:
+	void CheckPrev() {
+		if (_ptr->GetTail() == nullptr) {
+			while (_ptr->GetTail() == nullptr) {
+				if (_ptr->GetPrev() != nullptr) {
+					_ptr = _ptr->GetPrev();
+					_edgePtr = _ptr->GetTail();
+				}
+				else {
+					_ptr = _ptr->GetPrev();
+					if (_ptr == nullptr) {
+						_edgePtr = nullptr;
+						break;
+					}
+					_edgePtr = _ptr->GetTail();
+					break;
+				}
+			}
+		}
+	}
+
+	void CheckNext() {
+		if (_ptr->GetTail() == nullptr) {
+			while (_ptr->GetTail() == nullptr) {
+				if (_ptr->GetNext() != nullptr) {
+					_ptr = _ptr->GetNext();
+					_edgePtr = _ptr->GetTail();
+				}
+				else {
+					_ptr = _ptr->GetNext();
+					if (_ptr == nullptr) {
+						_edgePtr = nullptr;
+						break;
+					}
+					_edgePtr = _ptr->GetTail();
+					break;
+				}
+			}
+		}
+	}
 	NodePtr _ptr;
 	EdgePtr _edgePtr;
 };
